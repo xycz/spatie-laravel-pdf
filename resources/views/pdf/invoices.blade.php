@@ -7,64 +7,56 @@
         body {
             font-family: Arial, sans-serif;
             color: #333;
-            margin: 0;
-            padding: 0;
+            margin: 20px; /* Adjust the margin of the page */
         }
-
-        .container {
-            width: 100%;
-            margin: 0 auto;
-            padding: 0 20px; /* Added padding to the left and right */
+        .invoice-section {
+            page-break-inside: avoid; /* Avoid breaking an invoice across pages */
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px; /* Space between invoices */
         }
-
-        .content {
-            margin-top: 20px;
-        }
-
         .header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
+            margin-bottom: 20px; /* Space between header and content */
         }
-
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
         .header-date {
             text-align: right;
+            white-space: nowrap;
         }
-
-        .invoice-section {
-            page-break-inside: avoid; /* Avoid breaking inside an invoice */
-            break-inside: avoid; /* For modern browsers */
-            margin-bottom: 20px; /* Adds spacing between invoices */
+        .items {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
         }
-
-        .content, .table {
-            page-break-inside: avoid; /* Avoid breaking content and tables inside an invoice */
-            break-inside: avoid; /* For modern browsers */
+        .item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px; /* Space between items */
         }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: fixed; /* Added for even column spacing */
+        .item:last-child {
+            margin-bottom: 0;
         }
-
-        table, th, td {
-            border: 1px solid black;
-        }
-
-        th, td {
-            padding: 10px;
+        .item div {
+            flex-basis: 20%; /* Adjust the width of each item block */
             text-align: left;
         }
-
-        th {
-            text-align: left; /* Align headers to the left */
+        .item div:first-child {
+            flex-basis: 40%; /* Description might need more space */
+        }
+        .total-amount {
+            text-align: right;
+            font-size: 18px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="invoices-container">
         @foreach ($invoices as $invoice)
             <div class="invoice-section">
                 <div class="header">
@@ -73,34 +65,20 @@
                         <p>Date: {{ $invoice->date }}</p>
                     </div>
                 </div>
-
-                <div class="content">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Items</th>
-                                <th>Description</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($invoice->items as $item)
-                                <tr>
-                                    <td>{{ $item['description'] }}</td>
-                                    <td>{{ $item['quantity'] }}</td>
-                                    <td>{{ $item['price'] }}</td>
-                                    <td>{{ $item['total'] }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-
-                    <h3>Total Amount: {{ $invoice->totalAmount }}</h3>
+                <div class="items">
+                    @foreach ($invoice->items as $item)
+                        <div class="item">
+                            <div>{{ $item['description'] }}</div>
+                            <div>{{ $item['quantity'] }}</div>
+                            <div>{{ $item['price'] }}</div>
+                            <div>{{ $item['total'] }}</div>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="total-amount">
+                    Total Amount: {{ $invoice->totalAmount }}
                 </div>
             </div>
-            <hr>
         @endforeach
     </div>
 </body>
