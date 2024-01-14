@@ -53,14 +53,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                <!-- @foreach ($invoice->items as $item)
+                @foreach ($invoice->items as $item)
                     <tr>
                         <td>{{ $item['description'] }}</td>
                         <td>{{ $item['quantity'] }}</td>
                         <td>{{ $item['price'] }}</td>
                         <td>{{ $item['total'] }}</td>
                     </tr>
-                @endforeach -->
+                @endforeach
                 </tbody>
             </table>
 
