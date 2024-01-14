@@ -18,4 +18,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('invoices/{invoice}', PdfController::class);
+Route::get('invoices', [PdfController::class, 'index']);
+Route::get('invoices/{invoice}', [PdfController::class, 'show']);
